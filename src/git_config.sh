@@ -31,5 +31,5 @@ else
   git config --global user.email "$git_email"
 fi
 
-git config --global push.autoSetRemote true
+git config --global push.autoSetupRemote true
 git config --global core.editor nvim
