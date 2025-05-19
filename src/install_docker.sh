@@ -1,38 +1,16 @@
 #!/usr/bin/env bash
 
-KEYRING_DIR=/etc/apt/keyrings
-KEY_FILE=$KEYRING_DIR/docker.gpg
-if [ ! -f "$KEY_FILE" ]; then
-  sudo mkdir -p "$KEYRING_DIR"
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
-    | sudo gpg --dearmor -o "$KEY_FILE"
-fi
+sudo apt install -y docker-compose
 
-REPO_FILE=/etc/apt/sources.list.d/docker.list
-ARCH_DEB="[arch=$(dpkg --print-architecture) signed-by=$KEY_FILE]"
-REPO_LINE="deb $ARCH_DEB https://download.docker.com/linux/ubuntu lunar stable"
-if ! grep -Fxq "$REPO_LINE" "$REPO_FILE" 2>/dev/null; then
-  echo "$REPO_LINE" | sudo tee "$REPO_FILE" >/dev/null
-fi
+DOCKER_CONFIG="/usr/local/lib/docker"
+sudo mkdir -p $DOCKER_CONFIG/cli-plugins
 
-sudo apt-get update
+# Docker compose V2
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.36.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
 
-packages=(
-  docker-ce
-  docker-ce-cli
-  containerd.io
-  docker-compose-plugin
-  docker-buildx-plugin
-)
-to_install=()
-for pkg in "${packages[@]}"; do
-  if ! dpkg -s "$pkg" >/dev/null 2>&1; then
-    to_install+=("$pkg")
-  fi
-done
+sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 
-if [ ${#to_install[@]} -gt 0 ]; then
-  sudo apt-get install -y "${to_install[@]}"
-else
-  echo "All Docker packages are already installed, skipping."
-fi
+# Docker BuildX
+sudo curl -sSL https://github.com/docker/buildx/releases/download/v0.23.0/buildx-v0.23.0.linux-amd64 -o $DOCKER_CONFIG/cli-plugins/docker-buildx
+
+sudo chmod +x $DOCKER_CONFIG/cli-plugins/docker-buildx
