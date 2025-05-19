@@ -12,4 +12,4 @@ fi
 sudo chown -R $actual_user:$actual_user $actual_home
 
 gh auth setup-git
-gh set0edutir nvim
+gh config set editor nvim

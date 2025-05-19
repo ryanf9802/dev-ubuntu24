@@ -35,3 +35,6 @@ if [[ "${BUILD_PYTHON:-false}" == "true" ]]; then
   echo "Installed Python $LATEST"
   cd ~
 fi
+
+sudo apt install -y python3-pip python3-venv pipx
+pipx install black ruff
