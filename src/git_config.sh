@@ -32,3 +32,4 @@ else
 fi
 
 git config --global push.autoSetRemote true
+git config --global core.editor nvim

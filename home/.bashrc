@@ -1,8 +1,13 @@
 alias l="ls -la --color=auto"
+alias grep="grep --color=auto"
 
 # PATH Variables
 
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+
+# Environment Variables
+
+export COMPOSE_BAKE=true
 
 # Terminal prompt configuration with colors and Git repository info
 
