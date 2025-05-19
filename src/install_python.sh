@@ -38,3 +38,4 @@ fi
 
 sudo apt install -y python3-pip python3-venv pipx
 pipx install black ruff
+pipx install uv
